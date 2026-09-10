@@ -1,0 +1,9 @@
+{
+  "id": "vault-sync",
+  "name": "Vault Sync",
+  "version": "0.1.0",
+  "minAppVersion": "1.11.4",
+  "description": "Sync an Obsidian vault with a GitHub repository for shared access across devices and LLMs.",
+  "author": "shute2004",
+  "isDesktopOnly": false
+}
