@@ -53,6 +53,8 @@ Different-path changes are merged automatically. If both local and remote change
 
 Before updating `main`, Mobile rechecks the remote HEAD and uses a non-force ref update. If another device or LLM moved `main`, the attempt is discarded and synchronization is recalculated from the new remote state.
 
+After a remote merge is published successfully, Mobile applies the resulting tree to the local vault path-by-path and then records the new synchronization base. This local application is **not a filesystem-wide atomic transaction**. If a local write/delete fails partway through, some paths may already reflect the published remote tree while later paths do not. The operation surfaces an error and does not advance the saved synchronization base; the next sync therefore recalculates against the still-authoritative remote commit. The implementation does not claim rollback of already-applied local path changes.
+
 A fresh mobile vault with no synchronization base may contain Obsidian-generated configuration files. If it contains no user content outside the configuration directory, the first synchronization treats GitHub `main` as authoritative instead of misclassifying those generated files as user edits.
 
 ## Vault lifecycle boundary
@@ -88,7 +90,7 @@ Never hard-code `.obsidian`; use `Vault.configDir`.
 2. Never force-push during normal synchronization.
 3. Remote HEAD must be rechecked before updating `main`.
 4. Deletions are normal synchronized changes and remain recoverable from Git history.
-5. A synchronization failure must leave the local working copy intact and visible to the user.
+5. Synchronization failures must be surfaced. Mobile local-apply failures may leave a partially applied working copy, but they must not advance the synchronization base or be represented as an atomic rollback.
 6. Device-local protected paths must be untracked on both local and remote before automatic synchronization proceeds.
 7. Credentials are referenced through Obsidian SecretStorage; raw access tokens must not be persisted in normal plugin data or Git configuration.
 8. Bootstrap safety checks must inspect the real filesystem, including hidden entries.
