@@ -37,7 +37,19 @@ See [docs/architecture.md](docs/architecture.md) and [docs/sync-protocol.md](doc
 
 ## Verification
 
-The public snapshot includes deterministic tests for the three-way mobile merge planner, including local-only edits, remote-only edits, different-path merges, identical concurrent edits, delete propagation, and same-path conflicts. The source also exposes the desktop Git transport, mobile GitHub Git Database API transport, protected-path policy, and in-app conflict resolution for direct review.
+Automated tests cover:
+
+- three-way mobile merge planning;
+- Desktop bootstrap against real temporary Git repositories;
+- Desktop push/pull and protected local-only paths;
+- Desktop same-file conflict capture and both resolution choices;
+- Mobile synchronization through a simulated GitHub Git Database API;
+- same-file conflict preservation;
+- different-path concurrent merges;
+- remote-HEAD movement and retry;
+- both local and GitHub conflict choices on Mobile.
+
+GitHub Actions runs `npm run check`, which executes the Vitest suite and a production build, then uploads the built Obsidian plugin files as a workflow artifact.
 
 ## Development
 
