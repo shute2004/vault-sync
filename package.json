@@ -13,10 +13,10 @@
   "keywords": ["obsidian", "github", "sync", "markdown"],
   "license": "UNLICENSED",
   "devDependencies": {
-    "@types/node": "^22.15.17",
+    "@types/node": "22.15.17",
     "esbuild": "0.25.5",
-    "obsidian": "latest",
-    "typescript": "^5.8.3",
-    "vitest": "^3.2.4"
+    "obsidian": "1.13.1",
+    "typescript": "5.8.3",
+    "vitest": "3.2.4"
   }
 }
